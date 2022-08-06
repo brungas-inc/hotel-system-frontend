@@ -5,7 +5,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { Alert as AlertComponent } from "@material-tailwind/react";
+import { alert, Alert as AlertComponent } from "@material-tailwind/react";
 
 const Alert = (props, ref) => {
   const alertColors = {
@@ -17,42 +17,44 @@ const Alert = (props, ref) => {
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
   const [alertColor, setAlertColor] = useState(alertColors.progress);
+  const [time, setTime] = useState();
 
-  const addMessage = (input) => {
+  const addMessage = (input, time) => {
     setMessage(input);
     setShow(true);
+    time && setTime(time);
   };
 
-  const errorMessage = (input) => {
+  const errorMessage = (input, time) => {
     setAlertColor(alertColors.danger);
-    addMessage(input);
+    addMessage(input, time);
   };
 
-  const successMessage = (input) => {
+  const successMessage = (input, time) => {
     setAlertColor(alertColors.success);
-    addMessage(input);
+    addMessage(input, time);
   };
 
-  const warningMessage = (input) => {
+  const warningMessage = (input, time) => {
     setAlertColor(alertColors.warning);
-    addMessage(input);
+    addMessage(input, time);
   };
-  const progressMessage = (input) => {
+  const progressMessage = (input, time) => {
     setAlertColor(alertColors.progress);
-    addMessage(input);
+    addMessage(input, time);
   };
 
   useImperativeHandle(ref, () => ({
-    showError: (input) => errorMessage(input),
-    showSuccess: (input) => successMessage(input),
-    showWarning: (input) => warningMessage(input),
-    showProgress: (input) => progressMessage(input),
+    showError: (input, time) => errorMessage(input, time),
+    showSuccess: (input, time) => successMessage(input, time),
+    showWarning: (input, time) => warningMessage(input, time),
+    showProgress: (input, time) => progressMessage(input, time),
   }));
   useEffect(() => {
     if (show) {
       setTimeout(() => {
         setShow(false);
-      }, 1500);
+      }, time || 1500);
     }
   }, [show]);
   return (
@@ -63,6 +65,14 @@ const Alert = (props, ref) => {
       dismissible={{
         onClose: () => setShow(false),
       }}
+      icon={
+        alertColor === alertColors.progress ? (
+          <svg
+            class="animate-spin h-5 w-5 mr-3 text-white"
+            viewBox="0 0 24 24"
+          ></svg>
+        ) : null
+      }
     >
       {message}
     </AlertComponent>

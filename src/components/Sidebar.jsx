@@ -19,7 +19,7 @@ const Sidebar = () => {
       >
         <div className="flex-col items-stretch min-h-full flex-nowrap px-0 relative">
           <h6 className="text-text text-xl py-4 w-full text-center font-bold">
-            Pharma +
+            Hotel +
           </h6>
 
           <div className="flex flex-col">
