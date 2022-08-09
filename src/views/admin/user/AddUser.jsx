@@ -7,6 +7,7 @@ import { TAILWIND_COLORS } from "../../../utils/constants";
 import * as Yup from "yup";
 import Select from "../../../components/SelectField";
 import Alert from "../../../components/Alert";
+import CardFooter from "../../../components/CardFooter";
 
 const AddUserSchema = Yup.object().shape({
   password: Yup.string()
@@ -25,7 +26,7 @@ const AddUserSchema = Yup.object().shape({
     .required("Email address Required"),
 });
 
-const AddUser = () => {
+const AddUser = (props) => {
   const alert = useRef();
   const submit = () => {};
   return (
@@ -139,34 +140,23 @@ const AddUser = () => {
                 value={values.gender}
                 errors={errors}
               />
-              {/* 
-                
-                
-                
-                
-                <div className="w-full  mb-2 font-light">
-                
-                </div>
-                <div className="w-full  mb-2 font-light">
-                 
-                </div>
-                <div className="w-full  mb-5 font-light">
-                  <RadioButton
-                    color={TAILWIND_COLORS.primary}
-                    label="Rember Me"
-                  />
-                </div>
-                <div className="w-full font-light flex">
-                  <Button
-                    variant="gradient"
-                    color={TAILWIND_COLORS.primary}
-                    className="mx-auto"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </Button>
-                </div>*/}
             </div>
+            <CardFooter className="justify-center">
+              <Button
+                variant="outlined"
+                color="blue-gray"
+                onClick={props.cancel}
+              >
+                Close
+              </Button>
+              <Button
+                variant="gradient"
+                color={TAILWIND_COLORS.primary}
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            </CardFooter>
           </form>
         )}
       </Formik>

@@ -29,7 +29,7 @@ const UserList = () => {
   const openEditUserModal = (item) => {};
   const openAddUserModal = () => {
     // let component = <Card></Card>;
-    let component = <AddUser hide={() => modal.current.hide()} />;
+    let component = <AddUser cancel={() => modal.current.hide()} />;
     modal && modal.current.openModal(component, "Add User");
   };
 

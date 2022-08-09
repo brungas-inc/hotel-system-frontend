@@ -21,14 +21,14 @@ const Modal = (props, ref) => {
     }
   };
 
-  const openM = (body, header, footer) => {
+  const openM = (body, header) => {
     setBody(body);
     setHeader(header);
     setFooter(footer);
     setIsOpen(true);
   };
   useImperativeHandle(ref, () => ({
-    openModal: (body, header, footer) => openM(body, header, footer),
+    openModal: (body, header) => openM(body, header),
     hide: () => {
       setIsOpen(false);
       setAnimate(false);
@@ -45,7 +45,7 @@ const Modal = (props, ref) => {
 
   return isOpen ? (
     <div
-      className={`bg-gray-900 bg-opacity-20 overflow-x-hidden fixed h-modal ${
+      className={`bg-gray-900 bg-opacity-20 backdrop-blur overflow-x-hidden fixed h-modal ${
         animate
           ? " h-screen w-full overflow-y-auto"
           : "h-0 w-0 overflow-y-hidden"
@@ -88,11 +88,7 @@ const Modal = (props, ref) => {
               <span className="sr-only">Close modal</span>
             </button>
           </CardHead>
-
-          <div className="modal-body">{body && body} </div>
-          <div className="flex items-center p-4 space-x-2 rounded-b border-t border-gray-200 ">
-            {footer ? footer : null}
-          </div>
+          {body && body}
         </div>
       </Container>
     </div>
