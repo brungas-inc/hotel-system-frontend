@@ -1,7 +1,15 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+} from "react";
+import CardHead from "./CardHead";
+import Container from "./Container";
 
 const Modal = (props, ref) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [animate, setAnimate] = useState(false);
   const [header, setHeader] = useState();
   const [body, setBody] = useState();
   const [footer, setFooter] = useState();
@@ -9,8 +17,10 @@ const Modal = (props, ref) => {
     e.preventDefault();
     if (e.target === e.currentTarget) {
       setIsOpen(false);
+      setAnimate(false);
     }
   };
+
   const openM = (body, header, footer) => {
     setBody(body);
     setHeader(header);
@@ -19,28 +29,49 @@ const Modal = (props, ref) => {
   };
   useImperativeHandle(ref, () => ({
     openModal: (body, header, footer) => openM(body, header, footer),
-    hide: () => setIsOpen(false),
+    hide: () => {
+      setIsOpen(false);
+      setAnimate(false);
+    },
   }));
-  return (
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        setAnimate(true);
+      }, 50);
+    }
+  }, [isOpen]);
+
+  return isOpen ? (
     <div
       className={`bg-gray-900 bg-opacity-20 overflow-x-hidden fixed h-modal ${
-        isOpen
-          ? " md:h-screen w-full overflow-y-auto"
+        animate
+          ? " h-screen w-full overflow-y-auto"
           : "h-0 w-0 overflow-y-hidden"
-      } bottom-0 right-0  z-200  md:inset-0 flex ease-in duration-300`}
+      } top-0 left-0  z-200  md:inset-0 flex `}
       onClick={(e) => closeAtParent(e)}
     >
       {/*  Main modal */}
-      <div className="relative p-4 w-full max-w-2xl h-full  md:h-auto m-auto">
+      <Container
+        className={`relative p-4 w-full max-w-4xl max-h-3xl ${
+          animate ? " h-screen w-full" : "h-0 w-0 overflow-y-hidden"
+        }  h-auto m-auto ease-in-out duration-300`}
+      >
         {/*  Modal content */}
         <div className="relative bg-white rounded-lg shadow p">
           {/*  Modal header */}
-          <div className="flex justify-between items-center p-4 bg-gradient-to-b bg-primary rounded-t-lg border-b text-white dark:border-gray-600 mb-4">
-            <span className="font-bold">{header || "Popup"}</span>
+          <CardHead
+            // className="flex justify-between items-center p-4 bg-gradient-to-b bg-primary rounded-t-lg border-b text-white dark:border-gray-600 mb-4"
+            title={header || "Popup"}
+          >
             <button
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                setAnimate(false);
+              }}
             >
               <svg
                 className="w-5 h-5"
@@ -56,16 +87,16 @@ const Modal = (props, ref) => {
               </svg>
               <span className="sr-only">Close modal</span>
             </button>
-          </div>
+          </CardHead>
 
-          <div className="modal-body">{body ? body : null} </div>
+          <div className="modal-body">{body && body} </div>
           <div className="flex items-center p-4 space-x-2 rounded-b border-t border-gray-200 ">
             {footer ? footer : null}
           </div>
         </div>
-      </div>
+      </Container>
     </div>
-  );
+  ) : null;
 };
 
 export default forwardRef(Modal);

@@ -58,24 +58,26 @@ const Alert = (props, ref) => {
     }
   }, [show]);
   return (
-    <AlertComponent
-      variant="gradient"
-      color={alertColor}
-      show={show}
-      dismissible={{
-        onClose: () => setShow(false),
-      }}
-      icon={
-        alertColor === alertColors.progress ? (
-          <svg
-            class="animate-spin h-5 w-5 mr-3 text-white"
-            viewBox="0 0 24 24"
-          ></svg>
-        ) : null
-      }
-    >
-      {message}
-    </AlertComponent>
+    <div className={props.className}>
+      <AlertComponent
+        variant="gradient"
+        color={alertColor}
+        show={show}
+        dismissible={{
+          onClose: () => setShow(false),
+        }}
+        icon={
+          alertColor === alertColors.progress ? (
+            <svg
+              class="animate-spin h-5 w-5 mr-3 text-white"
+              viewBox="0 0 24 24"
+            ></svg>
+          ) : null
+        }
+      >
+        {message}
+      </AlertComponent>
+    </div>
   );
 };
 

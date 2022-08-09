@@ -17,11 +17,11 @@ const InputField = ({ ...props }, ref) => {
   }));
 
   return (
-    <div className="mb-8 relative">
+    <div className={`mb-8 relative ${props.className}`}>
       <Input
         error={meta.touched && meta.error}
         variant="outlined"
-        size="lg"
+        size={props.size || "lg"}
         autoComplete="off"
         {...props}
       />

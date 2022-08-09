@@ -10,4 +10,9 @@ export const status = {
   pending: "loading",
 };
 
+export const TAILWIND_COLORS = {
+  accent: "amber",
+  primary: "indigo",
+};
+
 export const BASE_URL = "https://hms-staging-api.herokuapp.com/api/v1/";

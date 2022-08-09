@@ -11,6 +11,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { getCurrentRole } from "../rtk/UserSlice";
 import { useSelector } from "react-redux";
+import { TAILWIND_COLORS } from "../utils/constants";
 
 const Header = ({ showSidebar, setShowSidebar }) => {
   const currentRole = useSelector(getCurrentRole);
@@ -20,7 +21,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
       <div className="container max-w-full mx-auto flex items-center justify-between md:pr-8 md:pl-10">
         <div className="md:hidden mr-2 ">
           <Button
-            color="amber"
+            color={TAILWIND_COLORS.accent}
             variant="text"
             size="sm"
             ripple={true}
@@ -34,7 +35,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
             } z-50 transition-all duration-300`}
           >
             <Button
-              color="amber"
+              color={TAILWIND_COLORS.accent}
               variant="text"
               size="sm"
               ripple={true}
@@ -58,7 +59,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
                 }}
               >
                 <MenuHandler>
-                  <IconButton variant="gradient" color="amber">
+                  <IconButton variant="gradient" color={TAILWIND_COLORS.accent}>
                     <i className="material-icons text-white">person</i>
                   </IconButton>
                 </MenuHandler>

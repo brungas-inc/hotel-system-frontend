@@ -6,7 +6,7 @@ const InputField = ({ name, ...rest }) => {
       <Textarea
         {...rest}
         error={errors[name]}
-        color="indigo"
+        color={TAILWIND_COLORS.primary}
         variant="outlined"
         size="lg"
         autoComplete="off"

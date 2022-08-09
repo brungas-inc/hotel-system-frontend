@@ -15,7 +15,7 @@ import ProgressIndicator from "../../components/ProgressIndicator";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "../../utils/constants";
+import { BASE_URL, TAILWIND_COLORS } from "../../utils/constants";
 import { reportErrors } from "../../utils/helpers";
 
 const ChangePassword = ({ hide }) => {
@@ -71,7 +71,7 @@ const ChangePassword = ({ hide }) => {
                   <InputField
                     type="oldPassword"
                     name="oldPassword"
-                    color="indigo"
+                    color={TAILWIND_COLORS.primary}
                     label="Previous Password"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -82,7 +82,7 @@ const ChangePassword = ({ hide }) => {
                 <div className="w-full  mb-5 font-light">
                   <InputField
                     type="password"
-                    color="indigo"
+                    color={TAILWIND_COLORS.primary}
                     label="New Password"
                     name="password"
                     onChange={handleChange}
@@ -92,12 +92,12 @@ const ChangePassword = ({ hide }) => {
                   />
                 </div>
                 <div className="w-full  mb-5 font-light">
-                  <Checkbox color="indigo" label="Rember Me" />
+                  <Checkbox color={TAILWIND_COLORS.primary} label="Rember Me" />
                 </div>
                 <div className="w-full font-light flex">
                   <Button
                     variant="gradient"
-                    color="indigo"
+                    color={TAILWIND_COLORS.primary}
                     className="mx-auto"
                     onClick={handleSubmit}
                   >

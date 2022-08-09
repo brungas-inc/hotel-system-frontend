@@ -15,7 +15,7 @@ import ProgressIndicator from "../../components/ProgressIndicator";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "../../utils/constants";
+import { BASE_URL, TAILWIND_COLORS } from "../../utils/constants";
 import { reportErrors } from "../../utils/helpers";
 import Modal from "../../components/Modal";
 import ChangePassword from "./ChangePassword";
@@ -66,7 +66,10 @@ const Login = () => {
   return (
     <div className="bg-center bg-no-repeat bg-cover w-full h-screen flex bg-login-image">
       <Card className="m-auto w-96">
-        <CardHeader color="indigo" className="relative h-20 flex">
+        <CardHeader
+          color={TAILWIND_COLORS.primary}
+          className="relative h-20 flex"
+        >
           <h2 className="text-white text-2xl m-auto">Login</h2>
         </CardHeader>
         <CardBody>
@@ -113,7 +116,7 @@ const Login = () => {
                     <InputField
                       type="email"
                       name="email"
-                      color="indigo"
+                      color={TAILWIND_COLORS.primary}
                       label="Email"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -124,7 +127,7 @@ const Login = () => {
                   <div className="w-full  mb-5 font-light">
                     <InputField
                       type="password"
-                      color="indigo"
+                      color={TAILWIND_COLORS.primary}
                       label="Password"
                       name="password"
                       onChange={handleChange}
@@ -134,12 +137,15 @@ const Login = () => {
                     />
                   </div>
                   <div className="w-full  mb-5 font-light">
-                    <Checkbox color="indigo" label="Rember Me" />
+                    <Checkbox
+                      color={TAILWIND_COLORS.primary}
+                      label="Rember Me"
+                    />
                   </div>
                   <div className="w-full font-light flex">
                     <Button
                       variant="gradient"
-                      color="indigo"
+                      color={TAILWIND_COLORS.primary}
                       className="mx-auto"
                       onClick={handleSubmit}
                     >

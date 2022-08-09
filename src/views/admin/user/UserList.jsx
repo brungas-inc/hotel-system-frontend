@@ -1,21 +1,38 @@
-import { Button, CardBody } from "@material-tailwind/react";
+import { Button, Card, CardBody } from "@material-tailwind/react";
 import React, { useState, useRef } from "react";
 import CardHead from "../../../components/CardHead";
 import Container from "../../../components/Container";
 import useFetch from "../../../hooks/useFetch";
 import Table from "../../../components/Table";
+import Pagination from "../../../components/Pagination";
+import { reportErrors } from "../../../utils/helpers";
+import Alert from "../../../components/Alert";
+import Modal from "../../../components/Modal";
+import AddUser from "./AddUser";
+import { TAILWIND_COLORS } from "../../../utils/constants";
 
 const UserList = () => {
+  const alert = useRef();
+  const modal = useRef();
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: users, loading } = useFetch(
-    "users",
-    { currentPage: currentPage },
-    true,
-    {
-      data: [],
-      pagination: { totalPages: 0 },
-    }
-  );
+  const {
+    data: users,
+    loading,
+    error,
+  } = useFetch("users", { currentPage: currentPage }, true, {
+    data: [],
+    pagination: { totalPages: 0 },
+  });
+  React.useEffect(() => {
+    if (error) reportErrors(alert.current, error);
+  }, [error]);
+  const openEditUserModal = (item) => {};
+  const openAddUserModal = () => {
+    // let component = <Card></Card>;
+    let component = <AddUser hide={() => modal.current.hide()} />;
+    modal && modal.current.openModal(component, "Add User");
+  };
+
   return (
     <div>
       <div className="mt-10" />
@@ -24,17 +41,21 @@ const UserList = () => {
           <CardHead title="Employee List">
             <div className="flex">
               <Button
-                color="amber"
+                color={TAILWIND_COLORS.accent}
                 size="sm"
                 variant="outlined"
-                className="text-accentColor flex gap-2 justify-between"
+                className="text-accentColor"
+                onClick={openAddUserModal}
               >
-                <div className="material-icons font-bold">add</div>
+                <div className="material-icons font-bold mr-1 text-base leading-none">
+                  add
+                </div>
                 User
               </Button>
             </div>
           </CardHead>
           <CardBody className="w-full">
+            <Alert ref={alert} className="mb-2" />
             <Table
               items={users?.data}
               loading={loading}
@@ -89,7 +110,7 @@ const UserList = () => {
                   render: (item, index) => {
                     return (
                       <Button
-                        color="amber"
+                        color={TAILWIND_COLORS.accent}
                         size="sm"
                         variant="filled"
                         className="text-text flex gap-2 justify-between"
@@ -100,47 +121,16 @@ const UserList = () => {
                     );
                   },
                 },
-                // {
-                //   name: "last_name",
-                //   render: (item, index) => {
-                //     // console.log(item.user.last_name);
-                //     return <span>{item.user.last_name}</span>;
-                //   },
-                // },
-                // {
-                //   name: "created_at",
-                //   render: (item, index) => {
-                //     // console.log(item.user.last_name);
-                //     return <span>{item.user.created_at}</span>;
-                //   },
-                // },
-                // {
-                //   name: "modified_at",
-                //   render: (item, index) => {
-                //     // console.log(item.user.last_name);
-                //     return <span>{item.user.modified_at}</span>;
-                //   },
-                // },
-                // {
-                //   name: "is_active",
-                //   render: (item, index) => {
-                //     // console.log(item.user.last_name);
-                //     return item.is_active ? (
-                //       <span className="bg-green-100 rounded-2xl p-1.5">
-                //         {item.is_active == true ? "active" : "inactive"}
-                //       </span>
-                //     ) : (
-                //       <span className="bg-red-100 rounded-2xl p-1.5">
-                //         {item.is_active == true ? "active" : "inactive"}
-                //       </span>
-                //     );
-                //   },
-                // },
               ]}
+            />
+            <Pagination
+              data={users}
+              onChange={(value) => setCurrentPage(value)}
             />
           </CardBody>
         </Container>
       </div>
+      <Modal ref={modal} />
     </div>
   );
 };

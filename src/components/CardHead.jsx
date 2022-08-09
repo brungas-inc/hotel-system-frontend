@@ -19,7 +19,7 @@ const CardHead = (props) => {
 };
 
 CardHead.propTypes = {
-  children: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default CardHead;
