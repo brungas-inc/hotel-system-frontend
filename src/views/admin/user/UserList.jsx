@@ -1,55 +1,69 @@
-import { CardBody } from "@material-tailwind/react";
-import React from "react";
+import { Button, CardBody } from "@material-tailwind/react";
+import React, { useState, useRef } from "react";
 import CardHead from "../../../components/CardHead";
 import Container from "../../../components/Container";
 import useFetch from "../../../hooks/useFetch";
 import Table from "../../../components/Table";
 
 const UserList = () => {
-  const { data: users } = useFetch("users", null, true, []);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: users, loading } = useFetch(
+    "users",
+    { currentPage: currentPage },
+    true,
+    {
+      data: [],
+      pagination: { totalPages: 0 },
+    }
+  );
   return (
     <div>
       <div className="mt-10" />
       <div className="px-3 md:px-8">
         <Container>
-          <CardHead>Students List</CardHead>
+          <CardHead title="Employee List">
+            <div className="flex">
+              <Button
+                color="amber"
+                size="sm"
+                variant="outlined"
+                className="text-accentColor flex gap-2 justify-between"
+              >
+                <div className="material-icons font-bold">add</div>
+                User
+              </Button>
+            </div>
+          </CardHead>
           <CardBody className="w-full">
             <Table
-              items={users}
-              // smallHidden
+              items={users?.data}
+              loading={loading}
               columns={[
                 { label: "S/N", name: "index", customRender: true },
                 {
                   label: "First Name",
-                  name: "first_name",
-                  customRender: true,
+                  name: "firstName",
                 },
                 {
                   label: "Last Name",
-                  name: "last_name",
+                  name: "lastName",
+                },
+                {
+                  label: "Role",
+                  name: "role",
                   customRender: true,
                 },
                 {
-                  label: "Registration Number",
-                  name: "registration_number",
+                  label: "Phone Number",
+                  name: "phoneNumber",
                 },
                 {
-                  label: "Year Of Study",
-                  name: "year_of_Study",
+                  label: "Email",
+                  name: "email",
                 },
                 {
-                  label: "Year Of Study",
-                  name: "created_at",
-                  customRender: true,
-                },
-                {
-                  label: "Year Of Study",
-                  name: "modified_at",
-                  customRender: true,
-                },
-                {
-                  label: "Status",
-                  name: "is_active",
+                  label: "Action",
+                  name: "Action",
                   customRender: true,
                 },
               ]}
@@ -64,13 +78,28 @@ const UserList = () => {
                     );
                   },
                 },
-                // {
-                //   name: "first_name",
-                //   render: (item, index) => {
-                //     console.log(item.user.first_name);
-                //     return <span>{item.user.first_name}</span>;
-                //   },
-                // },
+                {
+                  name: "role",
+                  render: (item, index) => {
+                    return <span>{item.role?.name}</span>;
+                  },
+                },
+                {
+                  name: "Action",
+                  render: (item, index) => {
+                    return (
+                      <Button
+                        color="amber"
+                        size="sm"
+                        variant="filled"
+                        className="text-text flex gap-2 justify-between"
+                      >
+                        <div className="material-icons font-bold">edit</div>
+                        User
+                      </Button>
+                    );
+                  },
+                },
                 // {
                 //   name: "last_name",
                 //   render: (item, index) => {

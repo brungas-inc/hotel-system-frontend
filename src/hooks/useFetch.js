@@ -46,7 +46,7 @@ export function useFetch(
     fetchData(uri, queryString)
       .then((response) => {
         if (!ignore.current) {
-          const records = response.data.data;
+          const records = response.data;
           setData(
             typeof callback === "function" ? callback(response) : records
           );

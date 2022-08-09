@@ -1,4 +1,5 @@
 import React from "react";
+import ProgressIndicator from "./ProgressIndicator";
 
 const Table = (props) => {
   const getCustomRender = (item, index, name) => {
@@ -31,6 +32,13 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-grey-100 ">
+          <tr>
+            <ProgressIndicator
+              initialPosition={-200}
+              endPosition={500}
+              speed={50}
+            />
+          </tr>
           {props.items.length
             ? props.items.map((item, i) => {
                 return (
