@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { API_URL } from "../utils/constants";
+import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 
 async function fetchData(uri, queryString) {
-  const defaultParams = {
-    api_token: window.$user.api_token,
-  };
+  // const defaultParams = {
+  //   api_token: window.$user.api_token,
+  // };
   const params = {
-    ...defaultParams,
+    // ...defaultParams,
     ...(queryString ? JSON.parse(queryString) : {}),
   };
-  return await window.axios.get(API_URL + uri, { params });
+  return await window.axios.get(BASE_URL + uri, {
+    ...params,
+    headers: { Authorization: `Bearer ${window.$api_token}` },
+  });
 }
 
 /**

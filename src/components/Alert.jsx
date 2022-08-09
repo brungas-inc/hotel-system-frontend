@@ -54,7 +54,7 @@ const Alert = (props, ref) => {
     if (show) {
       setTimeout(() => {
         setShow(false);
-      }, time || 1500);
+      }, time || 5000);
     }
   }, [show]);
   return (

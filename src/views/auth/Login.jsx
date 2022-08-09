@@ -5,8 +5,6 @@ import {
   CardHeader,
   Checkbox,
   Button,
-  Input,
-  Textarea,
 } from "@material-tailwind/react";
 
 import { Formik } from "formik";
@@ -16,6 +14,11 @@ import { useRef } from "react";
 import ProgressIndicator from "../../components/ProgressIndicator";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../../utils/constants";
+import { reportErrors } from "../../utils/helpers";
+import Modal from "../../components/Modal";
+import ChangePassword from "./ChangePassword";
 
 const LogInSchema = Yup.object().shape({
   password: Yup.string().required("Password is Required"),
@@ -26,8 +29,40 @@ const LogInSchema = Yup.object().shape({
 
 const Login = () => {
   const alert = useRef();
+  const modal = useRef();
   const navigate = useNavigate();
 
+  const getLocation = (role) => {
+    if (role == "Root") return "/hms/admin/dashboard";
+    if (role == "Reception") return "/hms/reception";
+  };
+
+  const openModal = () => {
+    let component = <ChangePassword hide={() => modal.current.hide()} />;
+    modal && modal.current.openModal(component, "Change Password");
+  };
+  const submitLogin = (setSubmitting, values) => {
+    axios
+      .post(`${BASE_URL}auth/login`, values)
+      .then((response) => {
+        localStorage.setItem("user_token", response.data?.data?.token);
+        localStorage.setItem("user_id", response.data?.data?.user?._id);
+        alert.current.showSuccess(response.data.message, 3000);
+        if (response.data?.success == false) {
+          setTimeout(() => {
+            openModal();
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            setSubmitting(false);
+            navigate(getLocation(response.data?.data?.user?.role?.name));
+          }, [2000]);
+        }
+      })
+      .catch((error) => {
+        reportErrors(alert.current, error);
+      });
+  };
   return (
     <div className="bg-center bg-no-repeat bg-cover w-full h-screen flex bg-login-image">
       <Card className="m-auto w-96">
@@ -36,11 +71,7 @@ const Login = () => {
         </CardHeader>
         <CardBody>
           <Alert ref={alert} />
-          <ProgressIndicator
-            initialPosition={-200}
-            endPosition={400}
-            speed={30}
-          />
+
           <Formik
             initialValues={{ email: "", password: "" }}
             // validate={(values) => {
@@ -61,16 +92,9 @@ const Login = () => {
             //   return errors;
             // }}
             validationSchema={LogInSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              alert.current.showSuccess(
-                "Successfully Logged In, Redirecting.....",
-                3000
-              );
-              setTimeout(() => {
-                navigate("/private/hotel");
-                setSubmitting(false);
-              }, 1500);
-            }}
+            onSubmit={(values, { setSubmitting }) =>
+              submitLogin(setSubmitting, values)
+            }
           >
             {({
               values,
@@ -128,6 +152,7 @@ const Login = () => {
           </Formik>
         </CardBody>
       </Card>
+      <Modal ref={modal} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Avatar,
   Button,
@@ -9,9 +9,11 @@ import {
   MenuList,
 } from "@material-tailwind/react";
 import { useLocation } from "react-router-dom";
+import { getCurrentRole } from "../rtk/UserSlice";
+import { useSelector } from "react-redux";
 
 const Header = ({ showSidebar, setShowSidebar }) => {
-  const location = useLocation().pathname;
+  const currentRole = useSelector(getCurrentRole);
 
   return (
     <nav className="md:ml-64 py-6 px-3 shadow bg-primaryDark">
@@ -45,9 +47,7 @@ const Header = ({ showSidebar, setShowSidebar }) => {
 
         <div className="flex justify-between items-center w-full">
           <h4 className="uppercase text-white font-bold text-sm tracking-wider mt-1">
-            {location === "/"
-              ? "DASHBOARD"
-              : location.toUpperCase().replace("/", "")}
+            {currentRole?.name}
           </h4>
 
           <div className="flex">

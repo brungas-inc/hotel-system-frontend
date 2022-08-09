@@ -1,5 +1,5 @@
 import React from "react";
-import API_URL from "../utils/constants";
+import { BASE_URL } from "../utils/constants";
 
 async function postData(uri, queryString) {
   const defaultParams = {
@@ -9,7 +9,7 @@ async function postData(uri, queryString) {
     ...defaultParams,
     ...(queryString ? JSON.parse(queryString) : {}),
   };
-  return await window.axios.get(API_URL + uri, { params });
+  return await window.axios.get(BASE_URL + uri, { params });
 }
 
 const usePost = () => {

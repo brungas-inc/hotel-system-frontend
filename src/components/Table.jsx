@@ -11,7 +11,7 @@ const Table = (props) => {
 
   return (
     <div
-      className={`overflow-auto rounded-lg shadow ${
+      className={`overflow-auto p-2 rounded-lg shadow ${
         props.smallHidden ? hiddenClass : ""
       }`}
     >
