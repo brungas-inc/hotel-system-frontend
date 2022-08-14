@@ -33,11 +33,14 @@ const Table = (props) => {
         </thead>
         <tbody className="divide-y divide-grey-100 ">
           <tr>
-            <ProgressIndicator
-              initialPosition={-200}
-              endPosition={500}
-              speed={50}
-            />
+            <td colSpan={props.columns?.length}>
+              <ProgressIndicator
+                loading={props.loading}
+                initialPosition={-200}
+                endPosition={3000}
+                speed={10}
+              />
+            </td>
           </tr>
           {props.items.length
             ? props.items.map((item, i) => {
@@ -49,6 +52,9 @@ const Table = (props) => {
                     getCustomRender={getCustomRender}
                     renderRowItem={props.renderRowItem}
                     index={i}
+                    onRowClick={props.onRowClick}
+                    expanded={props.expanded}
+                    renderExpanded={props.renderExpanded}
                   />
                 );
               })
@@ -59,29 +65,49 @@ const Table = (props) => {
     </div>
   );
 };
-const TableRow = ({ columns, item, index, getCustomRender, onRowClick }) => {
+const TableRow = ({
+  columns,
+  item,
+  index,
+  getCustomRender,
+  onRowClick,
+  expanded,
+  renderExpanded,
+}) => {
+  console.log(expanded);
   return (
-    <tr
-      className=" even:bg-grey-50 odd:bg-white hover:bg-grey-50 hover:cursor-pointer"
-      onClick={() => {
-        if (typeof onRowClick == "function") onRowClick(item);
-      }}
-    >
-      {columns.map((col, i) => {
-        return (
-          <td
-            key={col.name}
-            className={
-              "p-3 py-5 text-sm text-grey-700 whitespace-nowrap text-left"
-            }
-          >
-            {col.customRender
-              ? getCustomRender(item, index, col.name)
-              : item[col.name]}
+    <>
+      <tr
+        className={` even:bg-grey-50 odd:bg-white hover:bg-gray-100 ${
+          typeof onRowClick == "function" ? "cursor-pointer" : " "
+        }  `}
+        onClick={() => {
+          if (typeof onRowClick == "function") onRowClick(item);
+        }}
+      >
+        {columns.map((col, i) => {
+          return (
+            <td
+              key={col.name}
+              className={
+                "p-3 py-5 text-sm text-grey-700 whitespace-nowrap text-left"
+              }
+            >
+              {col.customRender
+                ? getCustomRender(item, index, col.name)
+                : item[col.name]}
+            </td>
+          );
+        })}
+      </tr>
+      {expanded === item ? (
+        <tr>
+          <td colSpan={columns.length}>
+            {renderExpanded && renderExpanded(expanded, index)}
           </td>
-        );
-      })}
-    </tr>
+        </tr>
+      ) : null}
+    </>
   );
 };
 

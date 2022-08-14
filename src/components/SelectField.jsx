@@ -24,6 +24,7 @@ const SelectField = ({ ...props }, ref) => {
   }));
 
   const clear = () => helpers?.setValue();
+
   return (
     <div className="mb-8 relative">
       <Select

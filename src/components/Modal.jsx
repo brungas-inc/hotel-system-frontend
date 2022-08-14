@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import CardHead from "./CardHead";
 import Container from "./Container";
+import { CardBody } from "@material-tailwind/react/components/Card";
 
 const Modal = (props, ref) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,14 +50,14 @@ const Modal = (props, ref) => {
         animate
           ? " h-screen w-full overflow-y-auto"
           : "h-0 w-0 overflow-y-hidden"
-      } top-0 left-0  z-200  md:inset-0 flex `}
+      } top-0 left-0  z-50  md:inset-0 flex `}
       onClick={(e) => closeAtParent(e)}
     >
       {/*  Main modal */}
       <Container
-        className={`relative p-4 w-full max-w-4xl max-h-3xl ${
-          animate ? " h-screen w-full" : "h-0 w-0 overflow-y-hidden"
-        }  h-auto m-auto ease-in-out duration-300`}
+        className={`relative p-4 w-full  max-w-4xl max-h-3xl ${
+          animate ? " h-screen w-full" : "bottom-0"
+        }  h-auto m-auto ease-in-out duration-500`}
       >
         {/*  Modal content */}
         <div className="relative bg-white rounded-lg shadow p">
@@ -88,7 +89,7 @@ const Modal = (props, ref) => {
               <span className="sr-only">Close modal</span>
             </button>
           </CardHead>
-          {body && body}
+          <CardBody>{body && body}</CardBody>
         </div>
       </Container>
     </div>

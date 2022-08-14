@@ -10,9 +10,9 @@ import RequireAuth from "./components/RequireAuth";
 import NonExistantPage from "./views/NonExistantPage";
 import { ROLES } from "./utils/constants";
 import AdminRoutes from "./views/admin/AdminRoutes";
+import DesignRoutes from "./views/design/DesignRoutes";
 
 function App() {
-  const [menu, setMenu] = React.useState([]);
   const location = useLocation();
 
   return (
@@ -20,24 +20,22 @@ function App() {
       <Routes>
         <Route index path="/" element={<Login />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/hms" element={<Page menu={menu} />}>
+        <Route path="/hms" element={<Page />}>
           <Route
             path="reception"
             element={
               <RequireAuth allowedRoles={[ROLES.reception, ROLES.root]} />
             }
           >
-            <Route path="" element={<HotelBooking setMenu={setMenu} />} />
-            <Route
-              path="booking"
-              element={<HotelBooking setMenu={setMenu} />}
-            />
+            <Route path="" element={<HotelBooking />} />
+            <Route path="booking" element={<HotelBooking />} />
           </Route>
+          <Route path="designs/*" element={<DesignRoutes />} />
           <Route
             path="admin/*"
             element={<RequireAuth allowedRoles={[ROLES.root]} />}
           >
-            <Route path="*" element={<AdminRoutes setMenu={setMenu} />} />
+            <Route path="*" element={<AdminRoutes />} />
           </Route>
         </Route>
         {/* </Route> */}

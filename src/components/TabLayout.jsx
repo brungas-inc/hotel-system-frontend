@@ -1,36 +1,89 @@
-import React, { useEffect, useState } from "react";
-import {
-  Tabs,
-  TabsHeader,
-  TabsBody,
-  Tab,
-  TabPanel,
-} from "@material-tailwind/react";
+import React, { Component } from "react";
+import { Routes } from "react-router-dom";
+import { Button } from "@material-tailwind/react";
 
-const TabLayout = (props) => {
-  const [title, setTitle] = useState([]);
+export default class TabLayout extends Component {
+  constructor(props) {
+    super(props);
 
-  useEffect(() => {
-    setTitle(props.children.map((item) => item.props.title));
-  }, [props.children]);
-  return title.length ? (
-    <Tabs value={title[0]}>
-      <TabsHeader className="flex-wrap sm:flex-nowrap">
-        {props.children.map((e, i) => (
-          <Tab key={i.toString()} value={e.props.title} className="">
-            {e.props.title}
-          </Tab>
-        ))}
-      </TabsHeader>
-      <TabsBody>
-        {props.children.map((e, i) => (
-          <TabPanel key={i.toString()} value={e.props.title}>
-            {e}
-          </TabPanel>
-        ))}
-      </TabsBody>
-    </Tabs>
-  ) : null;
-};
+    this.state = {
+      activeTab: props.router ? props.location.pathname : props.activeTab || 0,
+    };
+  }
 
-export default TabLayout;
+  setActiveTab(activeTab) {
+    this.setState({ activeTab });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.router && prevProps.location !== this.props.location) {
+      this.setActiveTab(this.props.location.pathname);
+    }
+
+    if (prevState.activeTab !== this.state.activeTab) {
+      this.props.onTabChange && this.props.onTabChange(this.state.activeTab);
+    }
+  }
+  _getTabType(tab, index) {
+    if (
+      this.state.activeTab === index ||
+      (this.props.router &&
+        this.state.activeTab === this.props.basePath + tab.props.path)
+    ) {
+      return "gradient";
+    }
+
+    return "text";
+  }
+
+  _getTabClassName(tab, index) {
+    if (
+      this.state.activeTab === index ||
+      (this.props.router &&
+        this.state.activeTab === this.props.basePath + tab.props.path)
+    ) {
+      return "indigo";
+    }
+
+    return "blue-gray";
+  }
+
+  render() {
+    return (
+      <div className={this.props.className || ""}>
+        <ul className="flex flex-wrap text-sm font-medium text-center border-b border-slate-500 text-gray-500 dark:text-gray-400 ">
+          {this.props.children.map((e, i) => (
+            <Button
+              key={i.toString()}
+              className="transition-all"
+              color={this._getTabClassName(e, i)}
+              variant={this._getTabType(e, i)}
+              onClick={() => {
+                if (this.props.router) {
+                  this.props.navigate &&
+                    this.props.navigate(this.props.basePath + e.props.path);
+                } else {
+                  this.setState({ activeTab: i });
+                }
+              }}
+            >
+              {e.props.title}
+              {e.props.badge ? (
+                <span className="badge">{e.props.badge}</span>
+              ) : null}
+            </Button>
+          ))}
+        </ul>
+        <div className={"flex-1 " + (this.props.bodyClassName || "p-6")}>
+          {this.props.router ? (
+            <Routes>{this.props.children}</Routes>
+          ) : (
+            <>
+              {this.props.children.find((e, i) => i === this.state.activeTab)}
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+}

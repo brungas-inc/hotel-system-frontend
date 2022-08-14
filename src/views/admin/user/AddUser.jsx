@@ -30,7 +30,7 @@ const AddUser = (props) => {
   const alert = useRef();
   const submit = () => {};
   return (
-    <div className="py-4 px-8">
+    <div className="">
       <Alert ref={alert} />
       <Formik
         initialValues={{

@@ -7,6 +7,14 @@ module.exports = withMT({
   darkMode: false,
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    tooltip: {
+      styles: {
+        base: {
+          bg: "bg-primary",
+          color: "text-white",
+        },
+      },
+    },
     colors: {
       primaryDark: "#1a237e",
       transparent: "transparent",
@@ -26,6 +34,16 @@ module.exports = withMT({
     extend: {
       backgroundImage: {
         "login-image": "url('/public/media/bg-image.jpg')",
+      },
+      keyframes: {
+        snake: {
+          "0%": { width: 0, left: 0 },
+          "50%": { width: "50%", left: "25%" },
+          "100%": { width: 0, left: "100%" },
+        },
+      },
+      animation: {
+        snake: "snake 1.75s infinite linear",
       },
     },
   },

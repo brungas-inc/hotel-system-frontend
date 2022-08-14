@@ -5,6 +5,8 @@ import {
   CardHeader,
   Checkbox,
   Button,
+  IconButton,
+  Tooltip,
 } from "@material-tailwind/react";
 
 import { Formik } from "formik";
@@ -65,6 +67,24 @@ const Login = () => {
   };
   return (
     <div className="bg-center bg-no-repeat bg-cover w-full h-screen flex bg-login-image">
+      <div className="absolute top-5 right-5">
+        <Tooltip
+          content="Designs"
+          placement="bottom"
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0, y: 25 },
+          }}
+        >
+          <IconButton
+            variant="gradient"
+            color={TAILWIND_COLORS.accent}
+            onClick={() => navigate("/hms/designs/")}
+          >
+            <i className="material-icons text-white">brush</i>
+          </IconButton>
+        </Tooltip>
+      </div>
       <Card className="m-auto w-96">
         <CardHeader
           color={TAILWIND_COLORS.primary}
