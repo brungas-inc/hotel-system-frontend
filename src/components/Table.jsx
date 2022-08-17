@@ -12,12 +12,14 @@ const Table = (props) => {
 
   return (
     <div
-      className={`overflow-auto p-2 rounded-lg shadow ${
-        props.smallHidden ? hiddenClass : ""
-      }`}
+      className={`overflow-auto p-2 rounded-lg shadow scrollbar-thin scrollbar-thumb-primaryDark scrollbar-track-gray-300 ${
+        props.wrapperClassName
+      } ${props.smallHidden ? hiddenClass : ""}`}
     >
       <table className="w-full overflow-x-auto">
-        <thead className="bg-grey-50 border-b-2 border-grey-200">
+        <thead
+          className={`bg-grey-50 border-b-2 border-grey-200 ${props.headerClassName}`}
+        >
           <tr>
             {props.columns &&
               props.columns.map((item, index) => (

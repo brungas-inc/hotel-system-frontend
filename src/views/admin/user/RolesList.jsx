@@ -10,6 +10,7 @@ import Alert from "../../../components/Alert";
 import Modal from "../../../components/Modal";
 import AddRole from "./AddRole";
 import { TAILWIND_COLORS } from "../../../utils/constants";
+import EditRole from "./EditRole";
 
 const RolesList = () => {
   const alert = useRef();
@@ -20,11 +21,12 @@ const RolesList = () => {
     data: roles,
     loading,
     error,
-    loadData,
+    doFetch: loadData,
   } = useFetch("access-control/roles", { currentPage: currentPage }, true, {
     data: [],
     pagination: { totalPages: 0 },
   });
+
   React.useEffect(() => {
     if (error) reportErrors(alert.current, error);
   }, [error]);
@@ -34,8 +36,20 @@ const RolesList = () => {
   };
 
   const openAddRoleModal = () => {
-    let component = <AddRole cancel={() => modal.current.hide()} />;
+    let component = (
+      <AddRole cancel={() => modal.current.hide()} loadData={loadData} />
+    );
     modal && modal.current.openModal(component, "Add Role");
+  };
+  const openEditRoleModal = (item) => {
+    let component = (
+      <EditRole
+        cancel={() => modal.current.hide()}
+        loadData={loadData}
+        item={item}
+      />
+    );
+    modal && modal.current.openModal(component, "Edit Role");
   };
   return (
     <div>
@@ -133,7 +147,7 @@ const RolesList = () => {
                         size="sm"
                         variant="filled"
                         className="text-text flex gap-2 justify-between"
-                        onClick={editRoleRoute}
+                        onClick={() => openEditRoleModal(item)}
                       >
                         <div className="material-icons font-bold">edit</div>
                         Role

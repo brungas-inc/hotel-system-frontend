@@ -50,5 +50,5 @@ module.exports = withMT({
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 });

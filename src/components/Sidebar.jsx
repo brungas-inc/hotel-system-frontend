@@ -73,11 +73,11 @@ const SideBarItems = (props) => {
   };
 
   let currentClassName =
-    "flex items-center gap-4 text-sm text-textLight font-light px-4 py-3 rounded-lg";
+    "flex items-center gap-4 text-sm text-textLight hover:bg-zinc-300 font-light px-4 py-3 rounded-lg";
   let activeClassName =
     "flex items-center gap-4 text-sm font-light px-4 py-3 rounded-lg bg-gradient-to-tr from-primaryDark to-primary text-white shadow-md";
   let activeSubClassName =
-    "flex items-center gap-4 text-sm font-light px-4 py-3 rounded-lg bg-lightPrimary text-textLight shadow-md";
+    "flex items-center gap-4 text-sm font-light px-4 py-3 rounded-lg bg-stone-400 text-textLight shadow-md";
 
   let activeStyle = {
     color: "white",
